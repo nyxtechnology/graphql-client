@@ -8,8 +8,8 @@ class ResponseBuilder
 {
     public function build(ResponseInterface $httpResponse)
     {
-        $body = $httpResponse->getBody();
-        
+        $body = (string) $httpResponse->getBody();
+
         $normalizedResponse = $this->getNormalizedResponse($body);
 
         return new Response($normalizedResponse['data'], $normalizedResponse['errors']);
@@ -18,7 +18,7 @@ class ResponseBuilder
     private function getNormalizedResponse(string $body)
     {
         $decodedResponse = $this->getJsonDecodedResponse($body);
-        
+
         if (!array_key_exists('data', $decodedResponse)) {
             throw new \UnexpectedValueException('Invalid GraphQL JSON response.');
         }
